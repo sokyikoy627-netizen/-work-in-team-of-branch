@@ -1,1 +1,204 @@
-<h1>Login Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pairwise | Work better together</title>
+	<style>
+		:root {
+			--ink: #17211f;
+			--muted: #64726e;
+			--paper: #f7f6ef;
+			--lime: #d8f36b;
+			--coral: #ff765c;
+			--line: #d9ded2;
+			--white: #fffef9;
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			margin: 0;
+			color: var(--ink);
+			background: var(--paper);
+			font-family: Georgia, 'Times New Roman', serif;
+		}
+
+		nav, main, footer {
+			width: min(1120px, calc(100% - 48px));
+			margin: auto;
+		}
+
+		nav {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 28px 0;
+			font-family: Arial, sans-serif;
+		}
+
+		.logo {
+			color: var(--ink);
+			font-size: 1.15rem;
+			font-weight: 800;
+			letter-spacing: .08em;
+			text-decoration: none;
+			text-transform: uppercase;
+		}
+
+		.logo span { color: var(--coral); }
+
+		nav a:not(.logo) {
+			color: var(--ink);
+			font-size: .82rem;
+			font-weight: 700;
+			letter-spacing: .08em;
+			text-decoration: none;
+			text-transform: uppercase;
+		}
+
+		.hero {
+			display: grid;
+			grid-template-columns: 1.1fr .9fr;
+			gap: 72px;
+			align-items: center;
+			min-height: 640px;
+			padding: 70px 0 100px;
+		}
+
+		.eyebrow {
+			color: var(--coral);
+			font: 700 .75rem/1 Arial, sans-serif;
+			letter-spacing: .16em;
+			text-transform: uppercase;
+		}
+
+		h1 {
+			max-width: 680px;
+			margin: 22px 0;
+			font-size: clamp(3.6rem, 8vw, 7.3rem);
+			font-weight: 400;
+			letter-spacing: -.06em;
+			line-height: .88;
+		}
+
+		h1 em { color: var(--coral); font-style: normal; }
+
+		.intro {
+			max-width: 480px;
+			color: var(--muted);
+			font: 1.1rem/1.6 Arial, sans-serif;
+		}
+
+		.button {
+			display: inline-block;
+			margin-top: 24px;
+			padding: 16px 22px;
+			color: var(--ink);
+			background: var(--lime);
+			border: 1px solid var(--ink);
+			box-shadow: 4px 4px 0 var(--ink);
+			font: 700 .8rem Arial, sans-serif;
+			letter-spacing: .08em;
+			text-decoration: none;
+			text-transform: uppercase;
+		}
+
+		.mark {
+			position: relative;
+			display: grid;
+			place-items: center;
+			width: min(100%, 430px);
+			aspect-ratio: 1;
+			margin-left: auto;
+			background: var(--coral);
+			border-radius: 48% 52% 45% 55% / 55% 42% 58% 45%;
+			transform: rotate(-8deg);
+		}
+
+		.mark::before {
+			content: '';
+			position: absolute;
+			width: 68%;
+			aspect-ratio: 1;
+			border: 2px solid var(--ink);
+			border-radius: 50%;
+		}
+
+		.mark p {
+			z-index: 1;
+			margin: 0;
+			color: var(--white);
+			font-size: clamp(2.4rem, 6vw, 5rem);
+			line-height: .8;
+			text-align: center;
+			transform: rotate(8deg);
+		}
+
+		.details {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 0;
+			border-top: 1px solid var(--line);
+		}
+
+		.detail { padding: 28px 28px 42px 0; border-right: 1px solid var(--line); }
+		.detail + .detail { padding-left: 28px; }
+		.detail:last-child { border: 0; }
+		.detail strong { display: block; margin-bottom: 10px; font-size: 1.45rem; font-weight: 400; }
+		.detail p { margin: 0; color: var(--muted); font: .9rem/1.5 Arial, sans-serif; }
+
+		footer {
+			padding: 25px 0 40px;
+			color: var(--muted);
+			font: .75rem Arial, sans-serif;
+		}
+
+		@media (max-width: 720px) {
+			nav, main, footer { width: min(100% - 32px, 560px); }
+			nav { padding: 20px 0; }
+			.hero { grid-template-columns: 1fr; gap: 48px; min-height: auto; padding: 70px 0 76px; }
+			.mark { width: min(78vw, 330px); margin: 0 auto; }
+			.details { grid-template-columns: 1fr; }
+			.detail, .detail + .detail { padding: 24px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+		}
+	</style>
+</head>
+<body>
+	<nav>
+		<a class="logo" href="home.html">Pair<span>wise</span></a>
+		<a href="#values">Our approach</a>
+	</nav>
+
+	<main>
+		<section class="hero">
+			<div>
+				<div class="eyebrow">A brand built in pairs</div>
+				<h1>Make room for <em>better</em> work.</h1>
+				<p class="intro">Pairwise is a simple way for two people to turn a good idea into something real, useful, and worth sharing.</p>
+				<a class="button" href="#values">See the values</a>
+			</div>
+			<div class="mark" aria-label="Pairwise brand mark">
+				<p>two<br>minds</p>
+			</div>
+		</section>
+
+		<section class="details" id="values" aria-label="Pairwise values">
+			<article class="detail">
+				<strong>01 / Start together</strong>
+				<p>Bring different strengths to the same table from the first sketch.</p>
+			</article>
+			<article class="detail">
+				<strong>02 / Stay curious</strong>
+				<p>Ask clear questions, share progress early, and keep the work moving.</p>
+			</article>
+			<article class="detail">
+				<strong>03 / Ship proudly</strong>
+				<p>Turn thoughtful collaboration into a result everyone can stand behind.</p>
+			</article>
+		</section>
+	</main>
+
+	<footer>Pairwise / Work in team of branch / 2026</footer>
+</body>
+</html>
