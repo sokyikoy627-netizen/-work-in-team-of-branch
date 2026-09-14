@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --accent: #6366f1;
+    --accent-hover: #4f46e5;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --error: #f87171;
+    --success: #34d399;
+    --border: #334155;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    padding: 20px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 32px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  h1 {
+    font-size: 24px;
+    margin: 0 0 6px;
+    text-align: center;
+  }
+  p.subtitle {
+    color: var(--muted);
+    text-align: center;
+    margin: 0 0 28px;
+    font-size: 14px;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--muted);
+  }
+  .field {
+    margin-bottom: 18px;
+  }
+  input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #0f172a;
+    color: var(--text);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  input:focus {
+    border-color: var(--accent);
+  }
+  input.invalid {
+    border-color: var(--error);
+  }
+  .error-msg {
+    color: var(--error);
+    font-size: 12px;
+    margin-top: 6px;
+    min-height: 14px;
+  }
+  button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.15s ease;
+  }
+  button:hover { background: var(--accent-hover); }
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .status {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 18px;
+    min-height: 18px;
+  }
+  .status.success { color: var(--success); }
+  .status.error { color: var(--error); }
+  .toggle-pw {
+    position: relative;
+  }
+  .toggle-pw button.eye {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    width: auto;
+    padding: 4px 6px;
+    margin: 0;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .toggle-pw button.eye:hover { background: none; color: var(--text); }
+  .toggle-pw input { padding-right: 60px; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Welcome back</h1>
+  <p class="subtitle">Sign in to your account</p>
+
+  <form id="loginForm" novalidate>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="you@example.com" autocomplete="username">
+      <div class="error-msg" id="emailError"></div>
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <div class="toggle-pw">
+        <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+        <button type="button" class="eye" id="togglePw">Show</button>
+      </div>
+      <div class="error-msg" id="passwordError"></div>
+    </div>
+
+    <button type="submit" id="submitBtn">Log in</button>
+    <div class="status" id="status"></div>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('loginForm');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const emailError = document.getElementById('emailError');
+  const passwordError = document.getElementById('passwordError');
+  const statusEl = document.getElementById('status');
+  const submitBtn = document.getElementById('submitBtn');
+  const togglePw = document.getElementById('togglePw');
+
+  // In-memory "session" state (no browser storage used)
+  let isSubmitting = false;
+
+  togglePw.addEventListener('click', () => {
+    const isPassword = passwordInput.type === 'password';
+    passwordInput.type = isPassword ? 'text' : 'password';
+    togglePw.textContent = isPassword ? 'Hide' : 'Show';
+  });
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function setFieldError(input, errorEl, message) {
+    if (message) {
+      input.classList.add('invalid');
+      errorEl.textContent = message;
+    } else {
+      input.classList.remove('invalid');
+      errorEl.textContent = '';
+    }
+  }
+
+  function validate() {
+    let valid = true;
+
+    const email = emailInput.value.trim();
+    if (!email) {
+      setFieldError(emailInput, emailError, 'Email is required.');
+      valid = false;
+    } else if (!isValidEmail(email)) {
+      setFieldError(emailInput, emailError, 'Enter a valid email address.');
+      valid = false;
+    } else {
+      setFieldError(emailInput, emailError, '');
+    }
+
+    const password = passwordInput.value;
+    if (!password) {
+      setFieldError(passwordInput, passwordError, 'Password is required.');
+      valid = false;
+    } else if (password.length < 8) {
+      setFieldError(passwordInput, passwordError, 'Password must be at least 8 characters.');
+      valid = false;
+    } else {
+      setFieldError(passwordInput, passwordError, '');
+    }
+
+    return valid;
+  }
+
+  // Placeholder for a real authentication call.
+  // Replace this with a fetch() to your backend's /login endpoint.
+  async function authenticate(email, password) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // DEMO ONLY: accepts any well-formed email/password.
+        // A real backend must verify credentials server-side
+        // (hashed password comparison, rate limiting, etc.)
+        resolve({ ok: true, user: { email } });
+      }, 900);
+    });
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+
+    statusEl.textContent = '';
+    statusEl.className = 'status';
+
+    if (!validate()) return;
+
+    isSubmitting = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Logging in...';
+
+    try {
+      const result = await authenticate(emailInput.value.trim(), passwordInput.value);
+      if (result.ok) {
+        statusEl.textContent = `Welcome, ${result.user.email}!`;
+        statusEl.className = 'status success';
+      } else {
+        statusEl.textContent = 'Invalid email or password.';
+        statusEl.className = 'status error';
+      }
+    } catch (err) {
+      statusEl.textContent = 'Something went wrong. Please try again.';
+      statusEl.className = 'status error';
+    } finally {
+      isSubmitting = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Log in';
+    }
+  });
+
+  // Clear field error as user types
+  emailInput.addEventListener('input', () => setFieldError(emailInput, emailError, ''));
+  passwordInput.addEventListener('input', () => setFieldError(passwordInput, passwordError, ''));
+</script>
+
+</body>
+</html>
