@@ -148,6 +148,35 @@
 		.detail strong { display: block; margin-bottom: 10px; font-size: 1.45rem; font-weight: 400; }
 		.detail p { margin: 0; color: var(--muted); font: .9rem/1.5 Arial, sans-serif; }
 
+		.team {
+			padding: 70px 0;
+			border-top: 1px solid var(--line);
+		}
+
+		.team h2 {
+			margin: 0 0 28px;
+			font-size: clamp(2.4rem, 5vw, 4.5rem);
+			font-weight: 400;
+			letter-spacing: -.05em;
+		}
+
+		.members {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 18px;
+		}
+
+		.member {
+			padding: 24px;
+			background: var(--white);
+			border: 1px solid var(--line);
+		}
+
+		.member:first-child { border-top: 6px solid var(--coral); }
+		.member:last-child { border-top: 6px solid var(--lime); }
+		.member h3 { margin: 0 0 8px; font-size: 1.5rem; font-weight: 400; }
+		.member p { margin: 0; color: var(--muted); font: .9rem/1.5 Arial, sans-serif; }
+
 		footer {
 			padding: 25px 0 40px;
 			color: var(--muted);
@@ -161,6 +190,7 @@
 			.mark { width: min(78vw, 330px); margin: 0 auto; }
 			.details { grid-template-columns: 1fr; }
 			.detail, .detail + .detail { padding: 24px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+			.members { grid-template-columns: 1fr; }
 		}
 	</style>
 </head>
@@ -196,6 +226,21 @@
 				<strong>03 / Ship proudly</strong>
 				<p>Turn thoughtful collaboration into a result everyone can stand behind.</p>
 			</article>
+		</section>
+
+		<section class="team" id="team">
+			<div class="eyebrow">The pair behind the work</div>
+			<h2>Two roles.<br>One direction.</h2>
+			<div class="members">
+				<article class="member">
+					<h3>Member 01 / Builder</h3>
+					<p>Turns the shared idea into a working, useful experience.</p>
+				</article>
+				<article class="member">
+					<h3>Member 02 / Navigator</h3>
+					<p>Brings fresh questions, thoughtful feedback, and a clear next step.</p>
+				</article>
+			</div>
 		</section>
 	</main>
 
